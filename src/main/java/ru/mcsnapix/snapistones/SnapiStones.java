@@ -12,6 +12,9 @@ import ru.mcsnapix.snapistones.handler.ProtectionBlockHandler;
 import ru.mcsnapix.snapistones.managers.Module;
 import ru.mcsnapix.snapistones.managers.Protection;
 import ru.mcsnapix.snapistones.modules.customflags.utils.FlagUtil;
+import ru.mcsnapix.snapistones.mysql.MySQL;
+
+import java.sql.SQLException;
 
 @Getter
 public final class SnapiStones extends JavaPlugin {
@@ -19,6 +22,7 @@ public final class SnapiStones extends JavaPlugin {
     private WorldGuardPlugin worldGuard;
     private Module moduleManager;
     private Protection protection;
+    private MySQL mySQL;
 
     public static SnapiStones get() {
         return snapiStones;
@@ -34,6 +38,12 @@ public final class SnapiStones extends JavaPlugin {
             return;
         }
         worldGuard = (WorldGuardPlugin) getServer().getPluginManager().getPlugin("WorldGuard");
+
+        try {
+            mySQL = new MySQL(getConfig().getString("mysql.host", "127.0.0.1"), getConfig().getInt("mysql.port", 3306), getConfig().getString("mysql.database", "server_anarchy"), getConfig().getString("mysql.username", "root"), getConfig().getString("mysql.password", "root"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         saveDefaultConfig();
 
@@ -60,7 +70,11 @@ public final class SnapiStones extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        try {
+            mySQL.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean isPluginEnable(String plugin) {

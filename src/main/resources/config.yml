@@ -1,5 +1,13 @@
+mysql:
+  host: "127.0.0.1"
+  port: "3306"
+  database: "server_anarchy?autoReconnect=true§useSSL=false"
+  username: "root"
+  password: "root"
+
 modules:
   hologram: true
+  home: true
   customFlags: true
   regionSUI: false
   menu: true

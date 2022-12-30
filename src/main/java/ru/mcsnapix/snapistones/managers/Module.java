@@ -4,6 +4,7 @@ import lombok.Getter;
 import ru.mcsnapix.snapistones.SnapiStones;
 import ru.mcsnapix.snapistones.modules.customflags.CustomFlags;
 import ru.mcsnapix.snapistones.modules.holograms.Hologram;
+import ru.mcsnapix.snapistones.modules.home.Home;
 import ru.mcsnapix.snapistones.modules.menu.Menu;
 import ru.mcsnapix.snapistones.modules.regionsui.RegionSUI;
 
@@ -11,6 +12,7 @@ import ru.mcsnapix.snapistones.modules.regionsui.RegionSUI;
 public class Module {
     private final SnapiStones plugin = SnapiStones.get();
     private Hologram holograms;
+    private Home home;
     private CustomFlags customFlags;
     private RegionSUI regionSUI;
     private Menu menu;
@@ -19,6 +21,10 @@ public class Module {
         if (check("hologram") && plugin.isPluginEnable("DecentHolograms")) {
             holograms = new Hologram();
             holograms.loadModule(plugin);
+        }
+        if (check("home")) {
+            home = new Home();
+            home.loadModule(plugin);
         }
         if (check("customFlags")) {
             customFlags = new CustomFlags();

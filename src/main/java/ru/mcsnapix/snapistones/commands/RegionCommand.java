@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.mcsnapix.snapistones.SnapiStones;
+import ru.mcsnapix.snapistones.config.Settings;
+import ru.mcsnapix.snapistones.modules.home.Home;
 import ru.mcsnapix.snapistones.utils.ConfigUtil;
 import ru.mcsnapix.snapistones.utils.Placeholder.PlayerUtil;
 import ru.mcsnapix.snapistones.utils.WGUtil;
@@ -169,6 +171,49 @@ public class RegionCommand extends BaseCommand {
         region.getOwners().addPlayer(name);
 
         PlayerUtil.sendStringMessage("language.correctUse.addOwner.8", player, region);
+    }
+
+    @Subcommand("sethome")
+    public void onSetHome(Player player, String[] args) {
+        if (!plugin.getModuleManager().check("home")) {
+            return;
+        }
+
+        Home home = plugin.getModuleManager().getHome();
+        Settings settings = home.getSettings();
+
+        String id = plugin.getProtection().getRegionID(player.getLocation());
+        if (id.equals("")) {
+            player.sendMessage(settings.get("SetHome.NotInRegion"));
+            return;
+        }
+
+        home.addHome(id, player.getLocation());
+        player.sendMessage(settings.get("SetHome.Success"));
+    }
+
+    @Subcommand("home")
+    public void onHome(Player player, String[] args) {
+        if (!plugin.getModuleManager().check("home")) {
+            return;
+        }
+
+        Home home = plugin.getModuleManager().getHome();
+        Settings settings = home.getSettings();
+
+        if (args.length == 0) {
+            player.sendMessage(settings.get("Home.RegionWrite"));
+            return;
+        }
+
+        String id = args[0];
+        if (!WGUtil.hasRegion(player, id)) {
+            player.sendMessage(settings.get("Home.NoRegion"));
+            return;
+        }
+
+        player.teleport(home.getHomeLoc(id));
+        player.sendMessage(settings.get("Home.Success"));
     }
 
     @Default
