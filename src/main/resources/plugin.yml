@@ -1,0 +1,9 @@
+name: SnapiStones
+version: '${project.version}'
+main: ru.mcsnapix.snapistones.SnapiStones
+authors: [ SnapiX ]
+depend:
+  - WorldGuard
+  - WorldEdit
+softdepend:
+  - DecentHolograms

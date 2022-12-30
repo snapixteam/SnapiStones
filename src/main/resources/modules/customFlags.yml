@@ -1,0 +1,12 @@
+EMERALD_ORE:
+  flags:
+    - greeting-action &lEntering &b&l%player% &f&lprotected area
+    - farewell-action &lLeaving &b&l%player% &f&lprotected area
+DIAMOND_BLOCK:
+  flags:
+    - greeting-action &lEntering &b&l%player% &f&lprotected area
+    - farewell-action &lLeaving &b&l%player% &f&lprotected area
+IRON_BLOCK:
+  flags:
+    - greeting-action &lEntering &b&l%player% &f&lprotected area
+    - farewell-action &lLeaving &b&l%player% &f&lprotected area
