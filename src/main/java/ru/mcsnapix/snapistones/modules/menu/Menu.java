@@ -19,9 +19,4 @@ public class Menu implements IModule {
         main.getServer().getPluginManager().registerEvents(new ClickListener(settings), main);
         Bukkit.getLogger().info("§fМодуль §aMenu §fзагружен");
     }
-
-    @Override
-    public void disable() {
-
-    }
 }

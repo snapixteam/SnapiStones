@@ -39,6 +39,7 @@ public class Settings {
                 this.config.load(this.file);
             }
         } catch (IOException | InvalidConfigurationException ignored) {
+            ignored.printStackTrace();
         }
         if (config.getInt("version", 0) < 8 && s.equals("levels")) {
             this.config.addDefaults(loadConfiguration);
@@ -63,6 +64,7 @@ public class Settings {
         try {
             this.config.save(file);
         } catch (IOException ignored) {
+            ignored.printStackTrace();
         }
     }
 

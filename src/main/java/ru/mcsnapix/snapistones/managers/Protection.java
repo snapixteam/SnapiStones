@@ -12,12 +12,11 @@ import ru.mcsnapix.snapistones.api.ProtectionBlock;
 import ru.mcsnapix.snapistones.utils.WGUtil;
 import ru.mcsnapix.snapistones.xseries.XMaterial;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 public class Protection {
     @Getter
-    private final Map<XMaterial, ProtectionBlock> protectionBlockList = new HashMap<>();
+    private final EnumMap<XMaterial, ProtectionBlock> protectionBlockList = new EnumMap<>(XMaterial.class);
 
     public Protection() {
         SnapiStones plugin = SnapiStones.get();
@@ -41,37 +40,40 @@ public class Protection {
         ApplicableRegionSet set = WorldGuard.getInstance()
                 .getPlatform().getRegionContainer().createQuery()
                 .getApplicableRegions(BukkitAdapter.adapt(loc));
+        String id = "";
 
         for (ProtectedRegion region : set) {
-            return region.getId();
+            id = region.getId();
         }
 
-        return "";
+        return id;
     }
 
     public ProtectedRegion getRegion(Location loc) {
         ApplicableRegionSet set = WorldGuard.getInstance()
                 .getPlatform().getRegionContainer().createQuery()
                 .getApplicableRegions(BukkitAdapter.adapt(loc));
+        ProtectedRegion rg = WGUtil.getRegionManagerWithLocation(loc).getRegion(ProtectedRegion.GLOBAL_REGION);
 
         for (ProtectedRegion region : set) {
-            return region;
+            rg = region;
         }
 
-        return null;
+        return rg;
     }
 
     public boolean isRegionProtectionBlock(Location loc) {
         ApplicableRegionSet set = WorldGuard.getInstance()
                 .getPlatform().getRegionContainer().createQuery()
                 .getApplicableRegions(BukkitAdapter.adapt(loc));
+        boolean bool = false;
 
         for (ProtectedRegion region : set) {
             Location center = WGUtil.getCenter(region.getMinimumPoint(), region.getMaximumPoint());
-            return center.toString().equals(loc.toString());
+            bool = center.toString().equals(loc.toString());
         }
 
-        return false;
+        return bool;
     }
 
     public ProtectionBlock getProtectionBlock(XMaterial xMaterial) {

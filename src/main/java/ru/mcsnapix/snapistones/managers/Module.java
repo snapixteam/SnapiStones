@@ -16,11 +16,9 @@ public class Module {
     private Menu menu;
 
     public Module() {
-        if (check("hologram")) {
-            if (plugin.isPluginEnable("DecentHolograms")) {
-                holograms = new Hologram();
-                holograms.loadModule(plugin);
-            }
+        if (check("hologram") && plugin.isPluginEnable("DecentHolograms")) {
+            holograms = new Hologram();
+            holograms.loadModule(plugin);
         }
         if (check("customFlags")) {
             customFlags = new CustomFlags();

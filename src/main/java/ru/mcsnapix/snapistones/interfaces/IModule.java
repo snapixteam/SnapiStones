@@ -6,5 +6,5 @@ public interface IModule {
 
     void loadModule(SnapiStones plugin);
 
-    void disable();
+//    void disable();
 }

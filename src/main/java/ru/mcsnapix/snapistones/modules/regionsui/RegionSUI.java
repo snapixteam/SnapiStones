@@ -15,9 +15,4 @@ public class RegionSUI implements IModule {
         settings = new Settings("modules/regionSUI", false);
         Bukkit.getLogger().info("§fМодуль §aRegionSUI §fзагружен");
     }
-
-    @Override
-    public void disable() {
-
-    }
 }

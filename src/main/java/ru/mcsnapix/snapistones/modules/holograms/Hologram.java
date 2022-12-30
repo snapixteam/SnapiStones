@@ -18,7 +18,4 @@ public class Hologram implements IModule {
         main.getServer().getPluginManager().registerEvents(new HologramListener(settings), main);
         Bukkit.getLogger().info("§fМодуль §aHologram §fзагружен");
     }
-
-    @Override
-    public void disable() {}
 }

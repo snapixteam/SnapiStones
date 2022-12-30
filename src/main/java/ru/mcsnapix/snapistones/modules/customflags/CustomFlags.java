@@ -19,9 +19,4 @@ public class CustomFlags implements IModule {
         main.getServer().getPluginManager().registerEvents(new FlagListener(settings), main);
         Bukkit.getLogger().info("§fМодуль §aCustomFlags §fзагружен");
     }
-
-    @Override
-    public void disable() {
-
-    }
 }
