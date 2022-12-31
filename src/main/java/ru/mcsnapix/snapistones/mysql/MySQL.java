@@ -1,7 +1,5 @@
 package ru.mcsnapix.snapistones.mysql;
 
-import ru.mcsnapix.snapistones.utils.Utils;
-
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
@@ -38,48 +36,35 @@ public class MySQL {
     }
 
     public void execute(String query, Object... vars) throws SQLException {
-        try (PreparedStatement ps = prepareStatement(query, vars)) {
-            if (ps == null) return;
+        try (PreparedStatement ps = prepareStatement(query, vars)){
             ps.execute();
         }
     }
 
     private PreparedStatement prepareStatement(String query, Object... vars) throws SQLException {
-        try (PreparedStatement ps = con.prepareStatement(query)) {
-            int i = 0;
-            if (query.contains("?")) {
-                for (Object obj : vars) {
-                    i++;
-                    ps.setObject(i, obj);
-                }
+        if (!isConnected()) openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        int i = 0;
+        if (query.contains("?")) {
+            for (Object obj : vars) {
+                i++;
+                ps.setObject(i, obj);
             }
-            return ps;
-        } catch (SQLException e) {
-            Utils.logError(e);
         }
-
-        return null;
+        return ps;
     }
 
     public CachedRowSet getCRS(String query, Object... vars) throws SQLException {
-        ResultSet rs;
-        PreparedStatement ps = null;
+        PreparedStatement ps = prepareStatement(query, vars);
+        ResultSet rs = ps.executeQuery();
         CachedRowSet crs;
         try {
-            ps = prepareStatement(query, vars);
-            if (ps == null) return null;
-            rs = ps.executeQuery();
             crs = RowSetProvider.newFactory().createCachedRowSet();
             crs.populate(rs);
             return crs;
-        } catch (SQLException e) {
-            Utils.logError(e);
         } finally {
-            if (ps != null) {
-                ps.close();
-            }
+            rs.close();
+            ps.close();
         }
-
-        return null;
     }
 }
