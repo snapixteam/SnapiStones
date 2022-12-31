@@ -63,8 +63,10 @@ public class MySQL {
 
     public CachedRowSet getCRS(String query, Object... vars) throws SQLException {
         ResultSet rs;
+        PreparedStatement ps = null;
         CachedRowSet crs;
-        try (PreparedStatement ps = prepareStatement(query, vars)) {
+        try {
+            ps = prepareStatement(query, vars);
             if (ps == null) return null;
             rs = ps.executeQuery();
             crs = RowSetProvider.newFactory().createCachedRowSet();
@@ -72,6 +74,10 @@ public class MySQL {
             return crs;
         } catch (SQLException e) {
             Utils.logError(e);
+        } finally {
+            if (ps != null) {
+                ps.close();
+            }
         }
 
         return null;

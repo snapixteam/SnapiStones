@@ -21,9 +21,9 @@ public class PlaceholderUtil {
             @Nullable ProtectedRegion region) {
         if (player != null) {
             value = value.replace("%player_name%", player.getDisplayName());
-            value = value.replace("%region_id%", region.getId());
         }
         if (region != null) {
+            value = value.replace("%region_id%", region.getId());
             value = value.replace("%region_owners%", getFormatSetString(region.getOwners().getUniqueIds()));
             value = value.replace("%region_members%", getFormatSetString(region.getMembers().getUniqueIds()));
         }
