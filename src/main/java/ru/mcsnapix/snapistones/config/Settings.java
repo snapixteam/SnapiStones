@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
-import org.slf4j.Marker;
 import ru.mcsnapix.snapistones.SnapiStones;
 
 import java.io.File;
@@ -21,8 +20,7 @@ public class Settings {
     private final YamlConfiguration config;
     private final File file;
     private final SnapiStones plugin = SnapiStones.get();
-    private final Logger logger = plugin.getLogger();
-    private final Marker marker = plugin.getMarker();
+    private final Logger logger = plugin.getSLF4JLogger();
 
     public Settings(String s, boolean defaults) {
         SnapiStones plugin = SnapiStones.get();
@@ -168,7 +166,7 @@ public class Settings {
     }
 
     private void logError(Throwable e) {
-        logger.error(marker, "Ошибка {}", e);
+        logger.error("Ошибка {}", e);
     }
 
 }
