@@ -23,7 +23,6 @@ public class Settings {
     private final Logger logger = plugin.getSLF4JLogger();
 
     public Settings(String s, boolean defaults) {
-        SnapiStones plugin = SnapiStones.get();
         this.file = new File(plugin.getDataFolder(), s + ".yml");
         this.config = YamlConfiguration.loadConfiguration(this.file);
         Reader reader = new InputStreamReader(plugin.getResource(s + ".yml"), StandardCharsets.UTF_8);
@@ -166,7 +165,7 @@ public class Settings {
     }
 
     private void logError(Throwable e) {
-        logger.error("Ошибка {}", e);
+        logger.error("Ошибка {}",e.toString());
     }
 
 }
