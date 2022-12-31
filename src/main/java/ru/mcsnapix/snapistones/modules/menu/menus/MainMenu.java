@@ -10,7 +10,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import ru.mcsnapix.snapistones.config.Settings;
 import ru.mcsnapix.snapistones.modules.menu.fastinv.FastInv;
 import ru.mcsnapix.snapistones.modules.menu.fastinv.ItemBuilder;
-import ru.mcsnapix.snapistones.utils.Placeholder.PlaceholderUtil;
+import ru.mcsnapix.snapistones.utils.placeholder.PlaceholderUtil;
 
 public class MainMenu extends FastInv {
 
@@ -26,12 +26,12 @@ public class MainMenu extends FastInv {
 
     @Override
     public void onOpen(InventoryOpenEvent event) {
-//        event.getPlayer().sendMessage(ChatColor.GOLD + "You opened the inventory");
+        // do something
     }
 
     @Override
     public void onClose(InventoryCloseEvent event) {
-//        event.getPlayer().sendMessage(ChatColor.GOLD + "You closed the inventory");
+        // do something
     }
 
     @Override

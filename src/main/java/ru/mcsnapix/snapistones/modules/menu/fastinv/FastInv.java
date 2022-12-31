@@ -84,12 +84,15 @@ public class FastInv implements InventoryHolder {
     }
 
     protected void onOpen(InventoryOpenEvent event) {
+        // do something
     }
 
     protected void onClick(InventoryClickEvent event) {
+        // do something
     }
 
     protected void onClose(InventoryCloseEvent event) {
+        // do something
     }
 
     /**

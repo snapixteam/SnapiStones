@@ -39,7 +39,7 @@ public class Settings {
                 this.config.load(this.file);
             }
         } catch (IOException | InvalidConfigurationException ignored) {
-            ignored.printStackTrace();
+            System.out.println(ignored);
         }
         if (config.getInt("version", 0) < 8 && s.equals("levels")) {
             this.config.addDefaults(loadConfiguration);
@@ -47,7 +47,7 @@ public class Settings {
             try {
                 this.config.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e);
             }
         }
     }
@@ -56,7 +56,7 @@ public class Settings {
         try {
             this.config.load(this.file);
         } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 
@@ -64,7 +64,7 @@ public class Settings {
         try {
             this.config.save(file);
         } catch (IOException ignored) {
-            ignored.printStackTrace();
+            System.out.println(ignored);
         }
     }
 

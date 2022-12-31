@@ -10,7 +10,7 @@ import ru.mcsnapix.snapistones.SnapiStones;
 import ru.mcsnapix.snapistones.config.Settings;
 import ru.mcsnapix.snapistones.modules.home.Home;
 import ru.mcsnapix.snapistones.utils.ConfigUtil;
-import ru.mcsnapix.snapistones.utils.Placeholder.PlayerUtil;
+import ru.mcsnapix.snapistones.utils.placeholder.PlayerUtil;
 import ru.mcsnapix.snapistones.utils.WGUtil;
 
 @CommandAlias("rg|region")

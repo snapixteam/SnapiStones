@@ -1,4 +1,4 @@
-package ru.mcsnapix.snapistones.utils.Placeholder;
+package ru.mcsnapix.snapistones.utils.placeholder;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import lombok.NonNull;

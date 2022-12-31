@@ -38,12 +38,8 @@ public class FlagUtil {
             }
             String value = values.toString().replace(sFlag + " ", "");
 
-            if (sFlag.equals("greeting-action")) {
-                region.setFlag(GREET_ACTION, value.replace("%player%", player.getDisplayName()));
-                continue;
-            }
-            if (sFlag.equals("farewell-action")) {
-                region.setFlag(FAREWELL_ACTION, value.replace("%player%", player.getDisplayName()));
+            if (sFlag.equals("greeting-action") || sFlag.equals("farewell-action")) {
+                setRegionFlag(region, sFlag, value, player);
                 continue;
             }
             Flag<?> existing = registry.get(sFlag);
@@ -53,6 +49,15 @@ public class FlagUtil {
             } else {
                 region.setFlag(stateFlag, StateFlag.State.DENY);
             }
+        }
+    }
+
+    private void setRegionFlag(ProtectedRegion region, String sFlag, String value, Player player) {
+        if (sFlag.equals("greeting-action")) {
+            region.setFlag(GREET_ACTION, value.replace("%player%", player.getDisplayName()));
+        }
+        if (sFlag.equals("farewell-action")) {
+            region.setFlag(FAREWELL_ACTION, value.replace("%player%", player.getDisplayName()));
         }
     }
 }
