@@ -1,12 +1,14 @@
 package ru.mcsnapix.snapistones.api.events.region;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import ru.mcsnapix.snapistones.api.ProtectionBlock;
 
+@Getter
 public class RegionCreateEvent extends Event {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     private final Player player;
@@ -19,26 +21,6 @@ public class RegionCreateEvent extends Event {
         this.region = region;
         this.protectionBlock = protectionBlock;
         this.location = location;
-    }
-
-    public static HandlerList getHandlerList() {
-        return HANDLERS_LIST;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public ProtectedRegion getRegion() {
-        return region;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public ProtectionBlock getProtectionBlock() {
-        return protectionBlock;
     }
 
     @Override
