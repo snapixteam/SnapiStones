@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * Material Source Code: https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse/src/main/java/org/bukkit/Material.java
  * XMaterial v1: https://www.spigotmc.org/threads/329630/
  * <p>
- * This class will throw a "unsupported material" error if someone tries to use an item with an invalid data value which can only happen in 1.12 servers and below or when the
+ * This class will throw an "unsupported material" error if someone tries to use an item with an invalid data value which can only happen in 1.12 servers and below or when the
  * utility is missing a new material in that specific version.
  * To get an invalid item, (aka <a href="https://minecraft.fandom.com/wiki/Missing_Texture_Block">Missing Texture Block</a>) you can use the command
  * <b>/give @p minecraft:dirt 1 10</b> where 1 is the item amount, and 10 is the data value. The material {@link #DIRT} with a data value of {@code 10} doesn't exist.
@@ -1656,7 +1656,7 @@ public enum XMaterial {
      */
     @Nonnull
     public static Optional<XMaterial> matchXMaterial(@Nonnull String name) {
-        if (name == null || name.isEmpty())
+        if (name.isEmpty())
             throw new IllegalArgumentException("Cannot match a material with null or empty material name");
         Optional<XMaterial> oldMatch = matchXMaterialWithData(name);
         return oldMatch.isPresent() ? oldMatch : matchDefinedXMaterial(format(name), UNKNOWN_DATA_VALUE);
@@ -1995,7 +1995,6 @@ public enum XMaterial {
      * @since 3.0.0
      */
     @Nonnull
-    @SuppressWarnings("deprecation")
     public ItemStack setType(@Nonnull ItemStack item) {
         Objects.requireNonNull(item, "Cannot set material for null ItemStack");
         Material material = this.parseMaterial();
@@ -2114,7 +2113,6 @@ public enum XMaterial {
      * @return true if the material is the same as the item's material (and data value if on older versions), otherwise false.
      * @since 1.0.0
      */
-    @SuppressWarnings("deprecation")
     public boolean isSimilar(@Nonnull ItemStack item) {
         Objects.requireNonNull(item, "Cannot compare with null ItemStack");
         if (item.getType() != this.parseMaterial()) return false;
@@ -2198,7 +2196,7 @@ public enum XMaterial {
     private static final class Data {
         /**
          * The current version of the server in the form of a major version.
-         * If the static initialization for this fails, you know something's wrong with the server software.
+         * If the static initialization for these fails, you know something's wrong with the server software.
          *
          * @since 1.0.0
          */

@@ -1,6 +1,5 @@
 package ru.mcsnapix.snapistones.utils;
 
-import com.google.common.base.Charsets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 @UtilityClass
@@ -34,7 +34,7 @@ public class Utils {
 
     @Nullable
     public static UUID getPlayerUuid(@Nonnull String name, boolean onlineMode, @Nullable Long timestamp) throws IOException {
-        if (!onlineMode) return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8));
+        if (!onlineMode) return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
         try (BufferedReader reader = createReader("https://api.mojang.com/users/profiles/minecraft/" + name
                 + (timestamp == null ? "" : "?at=" + timestamp))) {
             JsonElement element = readJson(reader);
