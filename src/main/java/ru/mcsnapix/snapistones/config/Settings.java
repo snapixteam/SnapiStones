@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 import ru.mcsnapix.snapistones.SnapiStones;
 
 import java.io.File;
@@ -19,7 +20,9 @@ import java.util.List;
 public class Settings {
     private final YamlConfiguration config;
     private final File file;
-    private final Logger logger = SnapiStones.get().getLogger();
+    private final SnapiStones plugin = SnapiStones.get();
+    private final Logger logger = plugin.getLogger();
+    private final Marker marker = plugin.getMarker();
 
     public Settings(String s, boolean defaults) {
         SnapiStones plugin = SnapiStones.get();
@@ -40,8 +43,8 @@ public class Settings {
                 }
                 this.config.load(this.file);
             }
-        } catch (IOException | InvalidConfigurationException ignored) {
-            logger.error("Ошибка "+ignored);
+        } catch (IOException | InvalidConfigurationException e) {
+            logError(e);
         }
         if (config.getInt("version", 0) < 8 && s.equals("levels")) {
             this.config.addDefaults(loadConfiguration);
@@ -49,7 +52,7 @@ public class Settings {
             try {
                 this.config.save(file);
             } catch (IOException e) {
-                logger.error("Ошибка "+e);
+                logError(e);
             }
         }
     }
@@ -58,15 +61,15 @@ public class Settings {
         try {
             this.config.load(this.file);
         } catch (IOException | InvalidConfigurationException e) {
-            logger.error("Ошибка "+e);
+            logError(e);
         }
     }
 
     public void save() {
         try {
             this.config.save(file);
-        } catch (IOException ignored) {
-            logger.error("Ошибка "+ignored);
+        } catch (IOException e) {
+            logError(e);
         }
     }
 
@@ -162,6 +165,10 @@ public class Settings {
         set(s, def);
         save();
         return def;
+    }
+
+    private void logError(Throwable e) {
+        logger.error(marker, "Ошибка {}", e);
     }
 
 }
