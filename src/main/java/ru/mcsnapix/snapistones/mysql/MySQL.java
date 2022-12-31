@@ -39,6 +39,7 @@ public class MySQL {
 
     public void execute(String query, Object... vars) throws SQLException {
         try (PreparedStatement ps = prepareStatement(query, vars)) {
+            if (ps == null) return;
             ps.execute();
         }
     }
@@ -64,6 +65,7 @@ public class MySQL {
         ResultSet rs;
         CachedRowSet crs;
         try (PreparedStatement ps = prepareStatement(query, vars)) {
+            if (ps == null) return null;
             rs = ps.executeQuery();
             crs = RowSetProvider.newFactory().createCachedRowSet();
             crs.populate(rs);
