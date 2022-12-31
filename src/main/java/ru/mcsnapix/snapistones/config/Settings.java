@@ -6,6 +6,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.slf4j.Logger;
 import ru.mcsnapix.snapistones.SnapiStones;
 
 import java.io.File;
@@ -18,6 +19,7 @@ import java.util.List;
 public class Settings {
     private final YamlConfiguration config;
     private final File file;
+    private final Logger logger = SnapiStones.get().getLogger();
 
     public Settings(String s, boolean defaults) {
         SnapiStones plugin = SnapiStones.get();
@@ -39,7 +41,7 @@ public class Settings {
                 this.config.load(this.file);
             }
         } catch (IOException | InvalidConfigurationException ignored) {
-            System.out.println(ignored);
+            logger.error("Ошибка "+ignored);
         }
         if (config.getInt("version", 0) < 8 && s.equals("levels")) {
             this.config.addDefaults(loadConfiguration);
@@ -47,7 +49,7 @@ public class Settings {
             try {
                 this.config.save(file);
             } catch (IOException e) {
-                System.out.println(e);
+                logger.error("Ошибка "+e);
             }
         }
     }
@@ -56,7 +58,7 @@ public class Settings {
         try {
             this.config.load(this.file);
         } catch (IOException | InvalidConfigurationException e) {
-            System.out.println(e);
+            logger.error("Ошибка "+e);
         }
     }
 
@@ -64,7 +66,7 @@ public class Settings {
         try {
             this.config.save(file);
         } catch (IOException ignored) {
-            System.out.println(ignored);
+            logger.error("Ошибка "+ignored);
         }
     }
 

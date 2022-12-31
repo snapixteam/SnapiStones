@@ -6,6 +6,8 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.mcsnapix.snapistones.commands.RegionCommand;
 import ru.mcsnapix.snapistones.handler.BlockHandler;
 import ru.mcsnapix.snapistones.handler.ProtectionBlockHandler;
@@ -23,6 +25,7 @@ public final class SnapiStones extends JavaPlugin {
     private Module moduleManager;
     private Protection protection;
     private MySQL mySQL;
+    Logger logger = LoggerFactory.getLogger("name");
 
     public static SnapiStones get() {
         return snapiStones;
