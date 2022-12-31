@@ -18,6 +18,7 @@ public class RegionCommand extends BaseCommand {
     private final SnapiStones plugin = SnapiStones.get();
 
     @Subcommand("info")
+    @CommandCompletion("@regionlist")
     public void onInfo(Player player, String[] args) {
         if (args.length == 0) {
             String id = plugin.getProtection().getRegionID(player.getLocation());
@@ -41,6 +42,7 @@ public class RegionCommand extends BaseCommand {
     }
 
     @Subcommand("remove")
+    @CommandCompletion("@myregionlistbyowner @players")
     public void onRemove(Player player, String[] args) {
         if (args.length == 0) {
             ConfigUtil.sendMessage(player, "language.correctUse.remove.1");
@@ -66,22 +68,30 @@ public class RegionCommand extends BaseCommand {
         }
 
         String name = args[1];
-        if (!(region.getMembers().contains(name) || region.getOwners().contains(name))) {
+
+        if (!Bukkit.getServer().getOfflinePlayer(name).hasPlayedBefore()) {
             PlayerUtil.sendStringMessage("language.correctUse.remove.5", player, region);
             return;
         }
 
-        if (name.equalsIgnoreCase(player.getDisplayName())) {
+        Player p = Bukkit.getPlayerExact(name);
+        if (!(region.getMembers().contains(p.getUniqueId()) || region.getOwners().contains(p.getUniqueId()))) {
             PlayerUtil.sendStringMessage("language.correctUse.remove.6", player, region);
+            return;
+        }
+
+        if (name.equalsIgnoreCase(player.getDisplayName())) {
+            PlayerUtil.sendStringMessage("language.correctUse.remove.7", player, region);
             return;
         }
 
         region.getMembers().removePlayer(name);
         region.getOwners().removePlayer(name);
-        PlayerUtil.sendStringMessage("language.correctUse.remove.7", player, region);
+        PlayerUtil.sendStringMessage("language.correctUse.remove.8", player, region);
     }
 
     @Subcommand("addmember")
+    @CommandCompletion("@myregionlistbyowner @players")
     public void onAddMember(Player player, String[] args) {
         if (args.length == 0) {
             ConfigUtil.sendMessage(player, "language.correctUse.addMember.1");
@@ -127,6 +137,7 @@ public class RegionCommand extends BaseCommand {
     }
 
     @Subcommand("addowner")
+    @CommandCompletion("@myregionlistbyowner @players")
     public void onAddOwner(Player player, String[] args) {
         if (args.length == 0) {
             ConfigUtil.sendMessage(player, "language.correctUse.addOwner.1");
@@ -162,7 +173,8 @@ public class RegionCommand extends BaseCommand {
             return;
         }
 
-        if (region.getOwners().contains(name)) {
+        Player p = Bukkit.getPlayerExact(name);
+        if (!region.getOwners().contains(p.getUniqueId())) {
             PlayerUtil.sendStringMessage("language.correctUse.addOwner.7", player, region);
             return;
         }
@@ -188,11 +200,18 @@ public class RegionCommand extends BaseCommand {
             return;
         }
 
+        ProtectedRegion region = WGUtil.getRegion(player, id);
+        if (!region.getOwners().contains(player.getUniqueId())) {
+            player.sendMessage(settings.get("SetHome.NotOwner"));
+            return;
+        }
+
         home.addHome(id, player.getLocation());
         player.sendMessage(settings.get("SetHome.Success"));
     }
 
     @Subcommand("home")
+    @CommandCompletion("@myregionlistbymember")
     public void onHome(Player player, String[] args) {
         if (!plugin.getModuleManager().check("home")) {
             return;
@@ -209,6 +228,12 @@ public class RegionCommand extends BaseCommand {
         String id = args[0];
         if (!WGUtil.hasRegion(player, id)) {
             player.sendMessage(settings.get("Home.NoRegion"));
+            return;
+        }
+
+        ProtectedRegion region = WGUtil.getRegion(player, id);
+        if (!(region.getOwners().contains(player.getUniqueId()) || region.getMembers().contains(player.getUniqueId()))) {
+            player.sendMessage(settings.get("Home.NotMember"));
             return;
         }
 

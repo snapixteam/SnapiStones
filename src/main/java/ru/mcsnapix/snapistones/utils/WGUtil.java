@@ -57,4 +57,8 @@ public class WGUtil {
     public RegionManager getRegionManagerWithLocation(Location loc) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(loc.getWorld()));
     }
+
+    public RegionManager getRegionManagerWithWorld(String world) {
+        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(world)));
+    }
 }

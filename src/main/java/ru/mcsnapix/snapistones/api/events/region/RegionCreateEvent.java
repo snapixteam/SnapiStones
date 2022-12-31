@@ -23,6 +23,10 @@ public class RegionCreateEvent extends Event {
         this.location = location;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return HANDLERS_LIST;
