@@ -43,28 +43,29 @@ public class MySQL {
 
     private PreparedStatement prepareStatement(String query, Object... vars) throws SQLException {
         if (!isConnected()) openConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        int i = 0;
-        if (query.contains("?")) {
-            for (Object obj : vars) {
-                i++;
-                ps.setObject(i, obj);
+        PreparedStatement ps = null;
+        try {
+            int i = 0;
+            ps = con.prepareStatement(query);
+            if (query.contains("?")) {
+                for (Object obj : vars) {
+                    i++;
+                    ps.setObject(i, obj);
+                }
+            }
+            return ps;
+        } finally {
+            if (ps != null) {
+                ps.close();
             }
         }
-        return ps;
     }
 
     public CachedRowSet getCRS(String query, Object... vars) throws SQLException {
         PreparedStatement ps = prepareStatement(query, vars);
-        ResultSet rs = ps.executeQuery();
-        CachedRowSet crs;
-        try {
-            crs = RowSetProvider.newFactory().createCachedRowSet();
+        try (ps; ResultSet rs = ps.executeQuery(); CachedRowSet crs = RowSetProvider.newFactory().createCachedRowSet()) {
             crs.populate(rs);
             return crs;
-        } finally {
-            rs.close();
-            ps.close();
         }
     }
 }
