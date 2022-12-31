@@ -61,4 +61,8 @@ public class WGUtil {
     public RegionManager getRegionManagerWithWorld(String world) {
         return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld(world)));
     }
+
+    public boolean hasPlayerInRegion(ProtectedRegion region, Player player) {
+        return region.getOwners().contains(player.getUniqueId()) || region.getMembers().contains(player.getUniqueId());
+    }
 }

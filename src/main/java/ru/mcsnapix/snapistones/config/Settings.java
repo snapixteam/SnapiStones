@@ -4,7 +4,6 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import ru.mcsnapix.snapistones.SnapiStones;
 import ru.mcsnapix.snapistones.utils.Utils;
@@ -87,16 +86,9 @@ public class Settings {
         return ChatColor.translateAlternateColorCodes('&', this.config.getString(s));
     }
 
-    public String get(Player p, String s) {
-        if (config.getString(s) == null) {
-            return "";
-        }
-        return ChatColor.translateAlternateColorCodes('&', this.config.getString(s));
-    }
-
     public String getOrDefault(String s, String def) {
         if (config.isSet(s)) {
-            return get(null, s);
+            return get(s);
         }
         set(s, def);
         save();

@@ -31,14 +31,10 @@ public class FarewellFlagHandler extends FlagValueChangeHandler<String> {
     protected boolean onSetValue(LocalPlayer localPlayer, Location from, Location to, ApplicableRegionSet toSet, String currentValue, String lastValue, MoveType moveType) {
         Player p = Bukkit.getPlayer(localPlayer.getUniqueId());
 
-        for (ProtectedRegion r : toSet.getRegions()) {
-            if (r.getFlag(FlagUtil.GREET_ACTION) != null) {
-                return true;
-            }
-        }
         if (p != null && lastValue != null && !lastValue.equals(currentValue)) {
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', lastValue)));
         }
+
         return true;
     }
 

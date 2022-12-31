@@ -1,13 +1,12 @@
 package ru.mcsnapix.snapistones;
 
 import co.aikar.commands.PaperCommandManager;
-import com.google.common.collect.ImmutableList;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import lombok.Getter;
-import lombok.var;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.mcsnapix.snapistones.commands.RegionCommand;
@@ -22,7 +21,6 @@ import ru.mcsnapix.snapistones.utils.WGUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +31,7 @@ public final class SnapiStones extends JavaPlugin {
     private Module moduleManager;
     private Protection protection;
     private MySQL mySQL;
+    private final RegionManager regionManager = WGUtil.getRegionManagerWithWorld(ConfigUtil.getString("mainWorld"));
 
     public static SnapiStones get() {
         return snapiStones;
@@ -72,7 +71,6 @@ public final class SnapiStones extends JavaPlugin {
         manager.getCommandCompletions().registerCompletion("myregionlistbyowner", c -> {
             Player player = c.getPlayer();
 
-            var regionManager = WGUtil.getRegionManagerWithWorld(ConfigUtil.getString("mainWorld"));
             List<String> regionList = new ArrayList<>();
 
             for (Map.Entry<String, ProtectedRegion> entry : regionManager.getRegions().entrySet()) {
@@ -87,7 +85,6 @@ public final class SnapiStones extends JavaPlugin {
         });
 
         manager.getCommandCompletions().registerCompletion("regionlist", c -> {
-            var regionManager = WGUtil.getRegionManagerWithWorld(ConfigUtil.getString("mainWorld"));
             List<String> regionList = new ArrayList<>();
 
             for (Map.Entry<String, ProtectedRegion> entry : regionManager.getRegions().entrySet()) {
@@ -103,13 +100,12 @@ public final class SnapiStones extends JavaPlugin {
         manager.getCommandCompletions().registerCompletion("myregionlistbymember", c -> {
             Player player = c.getPlayer();
 
-            var regionManager = WGUtil.getRegionManagerWithWorld(ConfigUtil.getString("mainWorld"));
             List<String> regionList = new ArrayList<>();
 
             for (Map.Entry<String, ProtectedRegion> entry : regionManager.getRegions().entrySet()) {
                 ProtectedRegion region = entry.getValue();
 
-                if (region.getOwners().contains(player.getUniqueId()) || region.getMembers().contains(player.getUniqueId())) {
+                if (WGUtil.hasPlayerInRegion(region, player)) {
                     regionList.add(region.getId());
                 }
             }

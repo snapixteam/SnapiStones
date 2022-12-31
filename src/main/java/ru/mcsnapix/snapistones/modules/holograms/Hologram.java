@@ -1,6 +1,5 @@
 package ru.mcsnapix.snapistones.modules.holograms;
 
-import eu.decentsoftware.holograms.api.DHAPI;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import ru.mcsnapix.snapistones.SnapiStones;

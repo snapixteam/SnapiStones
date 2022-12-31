@@ -10,6 +10,7 @@ import ru.mcsnapix.snapistones.SnapiStones;
 import ru.mcsnapix.snapistones.config.Settings;
 import ru.mcsnapix.snapistones.modules.home.Home;
 import ru.mcsnapix.snapistones.utils.ConfigUtil;
+import ru.mcsnapix.snapistones.utils.Utils;
 import ru.mcsnapix.snapistones.utils.placeholder.PlayerUtil;
 import ru.mcsnapix.snapistones.utils.WGUtil;
 
@@ -69,13 +70,13 @@ public class RegionCommand extends BaseCommand {
 
         String name = args[1];
 
-        if (!Bukkit.getServer().getOfflinePlayer(name).hasPlayedBefore()) {
+        if (!Utils.hasPlayedBefore(name)) {
             PlayerUtil.sendStringMessage("language.correctUse.remove.5", player, region);
             return;
         }
 
         Player p = Bukkit.getPlayerExact(name);
-        if (!(region.getMembers().contains(p.getUniqueId()) || region.getOwners().contains(p.getUniqueId()))) {
+        if (!WGUtil.hasPlayerInRegion(region, p)) {
             PlayerUtil.sendStringMessage("language.correctUse.remove.6", player, region);
             return;
         }
@@ -117,7 +118,7 @@ public class RegionCommand extends BaseCommand {
         }
 
         String name = args[1];
-        if (!Bukkit.getServer().getOfflinePlayer(name).hasPlayedBefore()) {
+        if (!Utils.hasPlayedBefore(name)) {
             PlayerUtil.sendStringMessage("language.correctUse.addMember.5", player, region);
             return;
         }
@@ -163,7 +164,7 @@ public class RegionCommand extends BaseCommand {
         }
 
         String name = args[1];
-        if (!Bukkit.getServer().getOfflinePlayer(name).hasPlayedBefore()) {
+        if (!Utils.hasPlayedBefore(name)) {
             PlayerUtil.sendStringMessage("language.correctUse.addOwner.5", player, region);
             return;
         }
@@ -232,7 +233,7 @@ public class RegionCommand extends BaseCommand {
         }
 
         ProtectedRegion region = WGUtil.getRegion(player, id);
-        if (!(region.getOwners().contains(player.getUniqueId()) || region.getMembers().contains(player.getUniqueId()))) {
+        if (!WGUtil.hasPlayerInRegion(region, player)) {
             player.sendMessage(settings.get("Home.NotMember"));
             return;
         }
