@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SpawnEggMeta;
 import org.bukkit.potion.Potion;
+import ru.mcsnapix.snapistones.utils.Utils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -1969,7 +1970,7 @@ public enum XMaterial {
                         pattern = Pattern.compile(comp);
                         CACHED_REGEX.put(comp, pattern);
                     } catch (PatternSyntaxException ex) {
-                        ex.printStackTrace();
+                        Utils.logError(ex);
                     }
                 }
                 if (pattern != null && pattern.matcher(name).matches()) return true;

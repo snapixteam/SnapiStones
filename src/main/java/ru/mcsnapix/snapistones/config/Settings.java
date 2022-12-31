@@ -6,8 +6,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.slf4j.Logger;
 import ru.mcsnapix.snapistones.SnapiStones;
+import ru.mcsnapix.snapistones.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +19,9 @@ import java.util.List;
 public class Settings {
     private final YamlConfiguration config;
     private final File file;
-    private final SnapiStones plugin = SnapiStones.get();
-    private final Logger logger = plugin.getSLF4JLogger();
 
     public Settings(String s, boolean defaults) {
+        SnapiStones plugin = SnapiStones.get();
         this.file = new File(plugin.getDataFolder(), s + ".yml");
         this.config = YamlConfiguration.loadConfiguration(this.file);
         Reader reader = new InputStreamReader(plugin.getResource(s + ".yml"), StandardCharsets.UTF_8);
@@ -41,7 +40,7 @@ public class Settings {
                 this.config.load(this.file);
             }
         } catch (IOException | InvalidConfigurationException e) {
-            logError(e);
+            Utils.logError(e);
         }
         if (config.getInt("version", 0) < 8 && s.equals("levels")) {
             this.config.addDefaults(loadConfiguration);
@@ -49,7 +48,7 @@ public class Settings {
             try {
                 this.config.save(file);
             } catch (IOException e) {
-                logError(e);
+                Utils.logError(e);
             }
         }
     }
@@ -58,7 +57,7 @@ public class Settings {
         try {
             this.config.load(this.file);
         } catch (IOException | InvalidConfigurationException e) {
-            logError(e);
+            Utils.logError(e);
         }
     }
 
@@ -66,7 +65,7 @@ public class Settings {
         try {
             this.config.save(file);
         } catch (IOException e) {
-            logError(e);
+            Utils.logError(e);
         }
     }
 
@@ -163,9 +162,4 @@ public class Settings {
         save();
         return def;
     }
-
-    private void logError(Throwable e) {
-        logger.error("An exception occurred with message: {}", e.getMessage());
-    }
-
 }
