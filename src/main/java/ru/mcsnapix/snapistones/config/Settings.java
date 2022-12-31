@@ -165,7 +165,7 @@ public class Settings {
     }
 
     private void logError(Throwable e) {
-        logger.error("Ошибка {}",e.toString());
+        logger.error("An exception occurred with message: {}", e.getMessage());
     }
 
 }
