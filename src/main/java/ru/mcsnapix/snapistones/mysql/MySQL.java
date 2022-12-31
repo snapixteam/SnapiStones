@@ -1,5 +1,7 @@
 package ru.mcsnapix.snapistones.mysql;
 
+import ru.mcsnapix.snapistones.utils.Utils;
+
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.*;
@@ -43,15 +45,21 @@ public class MySQL {
 
     private PreparedStatement prepareStatement(String query, Object... vars) throws SQLException {
         if (!isConnected()) openConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        int i = 0;
-        if (query.contains("?") && vars.length != 0) {
-            for (Object obj : vars) {
-                i++;
-                ps.setObject(i, obj);
+        try {
+            PreparedStatement ps = con.prepareStatement(query);
+            int i = 0;
+            if (query.contains("?")) {
+                for (Object obj : vars) {
+                    i++;
+                    ps.setObject(i, obj);
+                }
             }
+            return ps;
+        } catch (SQLException e) {
+            Utils.logError(e);
         }
-        return ps;
+
+        return null;
     }
 
     public CachedRowSet getCRS(String query, Object... vars) throws SQLException {
