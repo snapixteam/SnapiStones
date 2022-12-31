@@ -1829,7 +1829,6 @@ public enum XMaterial {
      * This method obviously doesn't work for 1.13+ and will not be supported. This is only here for debugging purposes.
      */
     @Nonnull
-    @Deprecated
     public static Optional<XMaterial> matchXMaterial(int id, byte data) {
         if (id < 0 || id > MAX_ID || data < 0) return Optional.empty();
         for (XMaterial materials : VALUES) {
