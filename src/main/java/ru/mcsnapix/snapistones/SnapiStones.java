@@ -14,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.mcsnapix.snapistones.commands.RegionCommand;
 import ru.mcsnapix.snapistones.handler.BlockHandler;
 import ru.mcsnapix.snapistones.handler.ProtectionBlockHandler;
-import ru.mcsnapix.snapistones.listeners.PlayerListener;
 import ru.mcsnapix.snapistones.listeners.ServerListener;
 import ru.mcsnapix.snapistones.managers.Module;
 import ru.mcsnapix.snapistones.managers.Protection;
@@ -65,7 +64,6 @@ public final class SnapiStones extends JavaPlugin {
         protection = new Protection();
 
         getServer().getPluginManager().registerEvents(new BlockHandler(snapiStones), snapiStones);
-        getServer().getPluginManager().registerEvents(new PlayerListener(), snapiStones);
         getServer().getPluginManager().registerEvents(new ProtectionBlockHandler(snapiStones), snapiStones);
         getServer().getPluginManager().registerEvents(new ServerListener(snapiStones), snapiStones);
 

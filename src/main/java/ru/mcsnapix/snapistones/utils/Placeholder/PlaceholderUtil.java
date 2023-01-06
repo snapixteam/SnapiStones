@@ -24,7 +24,6 @@ public class PlaceholderUtil {
             value = value.replace("%region_owners%", getFormatSetString(region.getOwners().getUniqueIds()));
             value = value.replace("%region_members%", getFormatSetString(region.getMembers().getUniqueIds()));
         }
-        // TODO: Доделать заполнители
 
         return value;
     }
