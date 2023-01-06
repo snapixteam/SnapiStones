@@ -1,27 +1,52 @@
 package ru.mcsnapix.snapistones.modules.menu.menus;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Material;
+import de.erethon.headlib.HeadLib;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.ItemStack;
 import ru.mcsnapix.snapistones.config.Settings;
 import ru.mcsnapix.snapistones.modules.menu.fastinv.FastInv;
 import ru.mcsnapix.snapistones.modules.menu.fastinv.ItemBuilder;
-import ru.mcsnapix.snapistones.utils.placeholder.PlaceholderUtil;
+import ru.mcsnapix.snapistones.xseries.XMaterial;
+
+import java.util.List;
+import java.util.UUID;
 
 public class MainMenu extends FastInv {
 
     public MainMenu(Settings settings, Player player, ProtectedRegion region) {
-        super(45, ChatColor.GOLD + "Example inventory");
-        setItem(22,
-                new ItemBuilder(Material.matchMaterial(settings.get("Information.material")))
-                        .name("Информация")
-                        .lore(PlaceholderUtil.getStringList(settings.getList("Information.lore"), player, region)).build(),
-                e -> e.setCancelled(true)
-        );
+        super(settings.getInt("Size"), settings.get("Title"));
+        ConfigurationSection items = settings.getConfig().getConfigurationSection("Items");
+
+        for (String item : items.getKeys(false)) {
+            ConfigurationSection itemInfo = items.getConfigurationSection(item);
+
+            String itemMaterial = itemInfo.getString("Material");
+            int itemAmount = itemInfo.getInt("Amount");
+            int itemSlot = itemInfo.getInt("Slot");
+            String itemName = itemInfo.getString("Name");
+            String itemHead = itemInfo.getString("Head");
+            List<String> itemLore = itemInfo.getStringList("Lore");
+
+            if (itemHead != null) {
+//                ItemStack skull = HeadLib.ANIMAL_BIRD.toItemStack();
+
+                ItemStack skull = HeadLib.setSkullOwner(
+                        new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial())
+                        .name(itemName).lore(itemLore).amount(itemAmount)
+                        .build(), UUID.randomUUID(), itemHead);
+                setItem(itemSlot, skull);
+                continue;
+            }
+
+            setItem(itemSlot, new ItemBuilder(XMaterial.matchXMaterial(itemMaterial).orElse(XMaterial.BEDROCK).parseMaterial())
+                    .name(itemName).lore(itemLore).amount(itemAmount)
+                    .build());
+        }
     }
 
     @Override

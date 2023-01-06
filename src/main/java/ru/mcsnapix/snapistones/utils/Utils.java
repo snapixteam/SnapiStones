@@ -33,7 +33,7 @@ public class Utils {
     }
 
     @Nullable
-    public static UUID getPlayerUuid(@Nonnull String name, boolean onlineMode, @Nullable Long timestamp) throws IOException {
+    public UUID getPlayerUuid(@Nonnull String name, boolean onlineMode, @Nullable Long timestamp) throws IOException {
         if (!onlineMode) return UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(StandardCharsets.UTF_8));
         try (BufferedReader reader = createReader("https://api.mojang.com/users/profiles/minecraft/" + name
                 + (timestamp == null ? "" : "?at=" + timestamp))) {
@@ -51,19 +51,19 @@ public class Utils {
     }
 
     @Nullable
-    private static JsonElement readJson(@Nonnull BufferedReader reader) throws IOException {
+    private JsonElement readJson(@Nonnull BufferedReader reader) throws IOException {
         String jsonInput = reader.readLine();
         if (jsonInput == null || jsonInput.isEmpty()) return null;
         return new JsonParser().parse(jsonInput);
     }
 
     @NonNull
-    private static BufferedReader createReader(@NonNull String url) throws IOException {
+    private BufferedReader createReader(@NonNull String url) throws IOException {
         return new BufferedReader(new InputStreamReader(new URL(url).openStream()));
     }
 
     @NonNull
-    private static UUID parseUUID(@NonNull String input, boolean hasSplitters) {
+    private UUID parseUUID(@NonNull String input, boolean hasSplitters) {
         if (hasSplitters) {
             if (input.length() != 36) throw new IllegalArgumentException("Некорректный UUID: " + input);
         } else {

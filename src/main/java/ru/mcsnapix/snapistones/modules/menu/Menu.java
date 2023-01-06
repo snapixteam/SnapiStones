@@ -10,13 +10,13 @@ import ru.mcsnapix.snapistones.modules.menu.listener.ClickListener;
 
 @Getter
 public class Menu implements IModule {
-    private Settings settings;
+    private Settings mainSettings;
 
     @Override
     public void loadModule(SnapiStones main) {
         FastInvManager.register(main);
-        settings = new Settings("modules/menu", false);
-        main.getServer().getPluginManager().registerEvents(new ClickListener(settings), main);
+        mainSettings = new Settings("modules/menu/mainMenu", false);
+        main.getServer().getPluginManager().registerEvents(new ClickListener(mainSettings), main);
         Bukkit.getLogger().info("§fМодуль §aMenu §fзагружен");
     }
 }

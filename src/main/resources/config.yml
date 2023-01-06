@@ -1,7 +1,7 @@
 mysql:
   host: "127.0.0.1"
   port: "3306"
-  database: "server_anarchy?autoReconnect=true§useSSL=false"
+  database: "server_anarchy?autoReconnect=true&useSSL=false"
   username: "root"
   password: "root"
 
@@ -15,77 +15,113 @@ modules:
   menu: true
 
 Region:
+  RED_MUSHROOM_BLOCK:
+    char: 'RM'
+    radius:
+      X: 33
+      Y: 33
+      Z: 33
+    place-sound: ENTITY_SHULKER_TELEPORT
+    break-sound: ENTITY_SHULKER_OPEN
+    place-effect:
+      name: DRAGON_BREATH
+      count: 100
+  BROWN_MUSHROOM_BLOCK:
+    char: 'BM'
+    radius:
+      X: 22
+      Y: 22
+      Z: 22
+    place-sound: ENTITY_SHULKER_TELEPORT
+    break-sound: ENTITY_SHULKER_OPEN
+    place-effect:
+      name: DRAGON_BREATH
+      count: 100
   EMERALD_ORE:
     char: 'E'
     radius:
-      X: 14
-      Y: 14
-      Z: 14
-    place-sound: BLOCK_BEACON_ACTIVATE
-    break-sound: BLOCK_BEACON_DEACTIVATE
+      X: 22
+      Y: 22
+      Z: 22
+    place-sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    break-sound: BLOCK_ANVIL_PLACE
+    place-effect:
+      name: EXPLOSION_NORMAL
+      count: 10
   DIAMOND_BLOCK:
     char: 'D'
     radius:
-      X: 14
-      Y: 14
-      Z: 14
-    place-sound: BLOCK_BEACON_ACTIVATE
-    break-sound: BLOCK_BEACON_DEACTIVATE
+      X: 17
+      Y: 17
+      Z: 17
+    place-sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    break-sound: BLOCK_ANVIL_PLACE
+    place-effect:
+      name: EXPLOSION_NORMAL
+      count: 10
   IRON_BLOCK:
     char: 'I'
     radius:
-      X: 14
-      Y: 14
-      Z: 14
-    place-sound: BLOCK_BEACON_ACTIVATE
-    break-sound: BLOCK_BEACON_DEACTIVATE
+      X: 8
+      Y: 8
+      Z: 8
+    place-sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    break-sound: BLOCK_ANVIL_PLACE
+    place-effect:
+      name: EXPLOSION_NORMAL
+      count: 70
 
 language:
-  cantProtectThat: '§cВы не можете защитить эту область.'
-  protected: 'Эта территория теперь защищена.'
-  cantPutRegionInAnotherRegion: 'Нельзя поставить регион, в другой регион'
-  inprotected: '§cВы убрали защиту'
+  cantProtectThat: '§fВы §cне можете §fзащитить эту область'
+  protected: '§fЭта территория теперь §aзащищена§f!'
+  cantPutRegionInAnotherRegion: '§fВы §cне можете §fустановить блок привата здесь! Ваш регион §bпересекается §fс другим'
+  inprotected: '§fВы §cсломали §fблок привата! Теперь ваша территория §cне защищена'
   help:
-    - 'Команды:'
-    - '§c/rg info <Регион>'
-    - '§c/rg remove <Регион> <Игрок>'
-    - '§c/rg addmember <Регион> <Игрок>'
-    - '§c/rg addowner <Регион> <Игрок>'
-    - '§c/rg sethome'
-    - '§c/rg home <Регион>'
-    - '§c/rg list'
+    - ''
+    - '  §e§lКоманды приватов на Анархии'
+    - ''
+    - '  §fИнформация о регионе §7– §a/rg info регион '
+    - '  §fИсключить игрока §7– §a/rg remove регион игрок'
+    - '  §fДобавить участника §7– §a/rg addmember регион игрок'
+    - '  §fДобавить владельца §7– §a/rg addowner регион игрок'
+    - '  §fУстановить точку дома §7– §a/rg sethome'
+    - '  §fТелепортироваться домой §7– §a/rg home регион'
+    - '  §fСписок регионов §7– §a/rg list'
+    - ''
   info:
-    - 'Информация о регионе:'
-    - 'Название региона: %region_id%'
-    - 'Владельцы: %region_owners%'
-    - 'Участники: %region_members%'
-  noRegionWithName: 'Нет региона с именем %region_id%'
-  correctUseInfo: 'В вашей области нет региона используйте, /rg info <Регион>'
+    - ''
+    - '§e§lИнформация о регионе:'
+    - ''
+    - '§fНазвание региона: §a%region_id%'
+    - '§fВладельцы: §a%region_owners%'
+    - '§fУчастники: §a%region_members%'
+    - ''
+  noRegionWithName: '§cНет §fрегиона с именем §a%region_id%'
   correctUse:
     remove:
-      1: 'Используйте: /rg remove <Регион> <Игрок>'
-      2: 'Регион %region_id% не существует'
-      3: 'Вы не являетесь владельцем региона %region_id%'
-      4: 'Используйте: /rg remove %region_id% <Игрок>'
-      5: 'Игрока не существует'
-      6: 'Игрок не в вашем регионе'
-      7: 'Вы не можете удалить себя'
-      8: 'Вы успешно удалили игрока %player_name%'
+      1: '§fИспользуйте: §a/rg remove регион игрок'
+      2: '§fРегион §a%region_id% §fне существует'
+      3: '§fВы §cне являетесь §fвладельцем региона §a%region_id%'
+      4: '§fИспользуйте: §a/rg remove %region_id% игрок'
+      5: '§fИгрока с таким ником §cне существует'
+      6: '§fИгрок, с данным ником, §cне состоит §fв вашем регионе'
+      7: '§fВы §cне можете §fудалить себя'
+      8: '§fВы успешно §cудалили §fигрока &a%player_name%'
     addMember:
-      1: 'Используйте: /rg addmember <Регион> <Игрок>'
-      2: 'Регион %region_id% не существует'
-      3: 'Вы не являетесь владельцем региона %region_id%'
-      4: 'Используйте: /rg addmember %region_id% <Игрок>'
-      5: 'Игрока не существует'
-      6: 'Вы не можете удалить себя'
-      7: 'Игрок уже в вашем регионе'
-      8: 'Вы успешно добавили игрока'
+      1: '§fИспользуйте: §a/rg addmember регион игрок'
+      2: '§fРегион §a%region_id% §fне существует'
+      3: '§fВы §cне являетесь §fвладельцем региона §a%region_id%'
+      4: '§fИспользуйте: §a/rg addmember %region_id% игрок'
+      5: '§fИгрока с таким ником §cне существует'
+      6: '§fВы §cне можете §fдобавить себя'
+      7: '§fИгрок, с данным ником, §aуже есть §fв вашем регионе'
+      8: '§fВы успешно §aдобавили §fигрока'
     addOwner:
-      1: 'Используйте: /rg addowner <Регион> <Игрок>'
-      2: 'Регион %region_id% не существует'
-      3: 'Вы не являетесь владельцем региона %region_id%'
-      4: 'Используйте: /rg addowner %region_id% <Игрок>'
-      5: 'Игрока не существует'
-      6: 'Вы не можете удалить себя'
-      7: 'Игрок уже в вашем регионе'
-      8: 'Вы успешно добавили игрока'
+      1: '§fИспользуйте: §a/rg addowner регион игрок'
+      2: '§fРегион §a%region_id% §fне существует'
+      3: '§fВы §cне являетесь §fвладельцем региона §a%region_id%'
+      4: '§fИспользуйте: §a/rg addowner %region_id% игрок'
+      5: '§fИгрока с таким ником §cне существует'
+      6: '§fВы §cне можете §fдобавить себя'
+      7: '§fИгрок, с данным ником, §aуже есть §fв вашем регионе'
+      8: '§fВы успешно §aдобавили §fигрока'

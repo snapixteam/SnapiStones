@@ -4,7 +4,10 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,8 +40,11 @@ public class ProtectionBlockHandler implements Listener {
         }
 
         Block block = event.getClickedBlock();
-        Location location = block.getLocation();
+        if (block == null) {
+            return;
+        }
 
+        Location location = block.getLocation();
         if (!plugin.getProtection().isRegionProtectionBlock(location)) {
             return;
         }
@@ -73,16 +79,23 @@ public class ProtectionBlockHandler implements Listener {
         ProtectionBlock protectionBlock = plugin.getProtection().getProtectionBlock(item);
         ProtectedRegion region = plugin.getProtection().getRegion(location);
 
-        if (region.getOwners().contains(player.getUniqueId())) {
-            RegionRemoveEvent regionRemoveEvent = new RegionRemoveEvent(player, region, protectionBlock, location);
-            Bukkit.getPluginManager().callEvent(regionRemoveEvent);
-
-            regionManager.removeRegion(region.getId());
-
-            ConfigUtil.sendMessage(player, "language.inprotected");
-        } else {
+        if (!region.getOwners().contains(player.getUniqueId())) {
             event.setCancelled(true);
+            return;
         }
+
+        RegionRemoveEvent regionRemoveEvent = new RegionRemoveEvent(player, region, protectionBlock, location);
+        Bukkit.getPluginManager().callEvent(regionRemoveEvent);
+
+        regionManager.removeRegion(region.getId());
+        event.setCancelled(true);
+        block.setType(Material.AIR);
+        block.getWorld().dropItem(block.getLocation(), protectionBlock.getItem().parseItem());
+
+        ConfigurationSection section = SnapiStones.get().getConfig().getConfigurationSection("Region."+protectionBlock.getItem().name());
+        location.getNearbyPlayers(6).forEach(p -> p.playSound(location, Sound.valueOf(section.getString("break-sound")), 1.0F, 1.0F));
+
+        ConfigUtil.sendMessage(player, "language.inprotected");
     }
 
     @EventHandler

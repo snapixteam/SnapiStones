@@ -8,10 +8,7 @@ import org.bukkit.entity.Player;
 import ru.mcsnapix.snapistones.SnapiStones;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @UtilityClass
 public class PlaceholderUtil {
@@ -60,10 +57,20 @@ public class PlaceholderUtil {
     }
 
     public String getFormatSetString(Set<UUID> uuids) {
+        Set<String> set = new HashSet<>();
+        for (UUID uuid : uuids) {
+            set.add(Bukkit.getOfflinePlayer(uuid).getName());
+        }
+        Iterator<String> iterator = set.iterator();
+
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (UUID uuid : uuids) {
-            stringBuilder.append(Bukkit.getOfflinePlayer(uuid).getName()).append(" ");
+        while (iterator.hasNext()) {
+            String next = iterator.next();
+            if (iterator.hasNext()) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(next);
         }
 
         if (stringBuilder.toString().equals("")) {

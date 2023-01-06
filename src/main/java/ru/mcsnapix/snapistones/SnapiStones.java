@@ -1,22 +1,25 @@
 package ru.mcsnapix.snapistones;
 
 import co.aikar.commands.PaperCommandManager;
+import com.google.common.collect.ImmutableList;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.mcsnapix.snapistones.commands.RegionCommand;
 import ru.mcsnapix.snapistones.handler.BlockHandler;
 import ru.mcsnapix.snapistones.handler.ProtectionBlockHandler;
+import ru.mcsnapix.snapistones.listeners.PlayerListener;
+import ru.mcsnapix.snapistones.listeners.ServerListener;
 import ru.mcsnapix.snapistones.managers.Module;
 import ru.mcsnapix.snapistones.managers.Protection;
 import ru.mcsnapix.snapistones.modules.customflags.utils.FlagUtil;
 import ru.mcsnapix.snapistones.mysql.MySQL;
-import ru.mcsnapix.snapistones.utils.ConfigUtil;
 import ru.mcsnapix.snapistones.utils.WGUtil;
 
 import java.sql.SQLException;
@@ -31,7 +34,9 @@ public final class SnapiStones extends JavaPlugin {
     private Module moduleManager;
     private Protection protection;
     private MySQL mySQL;
-    private final RegionManager regionManager = WGUtil.getRegionManagerWithWorld(ConfigUtil.getString("mainWorld"));
+    @Setter
+    private RegionManager regionManager;
+    private PaperCommandManager commandManager;
 
     public static SnapiStones get() {
         return snapiStones;
@@ -60,15 +65,27 @@ public final class SnapiStones extends JavaPlugin {
         protection = new Protection();
 
         getServer().getPluginManager().registerEvents(new BlockHandler(snapiStones), snapiStones);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), snapiStones);
         getServer().getPluginManager().registerEvents(new ProtectionBlockHandler(snapiStones), snapiStones);
+        getServer().getPluginManager().registerEvents(new ServerListener(snapiStones), snapiStones);
 
-        PaperCommandManager manager = new PaperCommandManager(snapiStones);
-        manager.registerCommand(new RegionCommand());
-        registerCommandCompletions(manager);
+        commandManager = new PaperCommandManager(snapiStones);
+        commandManager.registerCommand(new RegionCommand());
+    }
+
+    @Override
+    public void onLoad() {
+        if (isPluginEnable("CMI")) {
+            return;
+        }
+
+        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
+        registry.register(FlagUtil.GREET_ACTION);
+        registry.register(FlagUtil.FAREWELL_ACTION);
     }
 
     public void registerCommandCompletions(PaperCommandManager manager) {
-        manager.getCommandCompletions().registerCompletion("myregionlistbyowner", c -> {
+        manager.getCommandCompletions().registerAsyncCompletion("myregionlistbyowner", c -> {
             Player player = c.getPlayer();
 
             List<String> regionList = new ArrayList<>();
@@ -81,10 +98,10 @@ public final class SnapiStones extends JavaPlugin {
                 }
             }
 
-            return regionList;
+            return ImmutableList.copyOf(regionList);
         });
 
-        manager.getCommandCompletions().registerCompletion("regionlist", c -> {
+        manager.getCommandCompletions().registerAsyncCompletion("regionlist", c -> {
             List<String> regionList = new ArrayList<>();
 
             for (Map.Entry<String, ProtectedRegion> entry : regionManager.getRegions().entrySet()) {
@@ -94,12 +111,11 @@ public final class SnapiStones extends JavaPlugin {
                 }
             }
 
-            return regionList;
+            return ImmutableList.copyOf(regionList);
         });
 
-        manager.getCommandCompletions().registerCompletion("myregionlistbymember", c -> {
+        manager.getCommandCompletions().registerAsyncCompletion("myregionlistbymember", c -> {
             Player player = c.getPlayer();
-
             List<String> regionList = new ArrayList<>();
 
             for (Map.Entry<String, ProtectedRegion> entry : regionManager.getRegions().entrySet()) {
@@ -110,19 +126,8 @@ public final class SnapiStones extends JavaPlugin {
                 }
             }
 
-            return regionList;
+            return ImmutableList.copyOf(regionList);
         });
-    }
-
-    @Override
-    public void onLoad() {
-        if (isPluginEnable("CMI")) {
-            return;
-        }
-
-        FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-        registry.register(FlagUtil.GREET_ACTION);
-        registry.register(FlagUtil.FAREWELL_ACTION);
     }
 
     @Override

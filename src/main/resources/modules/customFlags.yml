@@ -1,12 +1,20 @@
+RED_MUSHROOM_BLOCK:
+  flags:
+    - greeting-action &fВы &aвошли &fв регион игрока &a%player%
+    - farewell-action &fВы &cвышли &fиз региона игрока &a%player%
+BROWN_MUSHROOM_BLOCK:
+  flags:
+    - greeting-action &fВы &aвошли &fв регион игрока &a%player%
+    - farewell-action &fВы &cвышли &fиз региона игрока &a%player%
 EMERALD_ORE:
   flags:
-    - greeting-action &lEntering &b&l%player% &f&lprotected area
-    - farewell-action &lLeaving &b&l%player% &f&lprotected area
+    - greeting-action &fВы &aвошли &fв регион игрока &a%player%
+    - farewell-action &fВы &cвышли &fиз региона игрока &a%player%
 DIAMOND_BLOCK:
   flags:
-    - greeting-action &lEntering &b&l%player% &f&lprotected area
-    - farewell-action &lLeaving &b&l%player% &f&lprotected area
+    - greeting-action &fВы &aвошли &fв регион игрока &a%player%
+    - farewell-action &fВы &cвышли &fиз региона игрока &a%player%
 IRON_BLOCK:
   flags:
-    - greeting-action &lEntering &b&l%player% &f&lprotected area
-    - farewell-action &lLeaving &b&l%player% &f&lprotected area
+    - greeting-action &fВы &aвошли &fв регион игрока &a%player%
+    - farewell-action &fВы &cвышли &fиз региона игрока &a%player%

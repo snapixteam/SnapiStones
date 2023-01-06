@@ -23,7 +23,7 @@ public class RegionCommand extends BaseCommand {
     public void onInfo(Player player, String[] args) {
         if (args.length == 0) {
             String id = plugin.getProtection().getRegionID(player.getLocation());
-            if (id.equals("")) {
+            if (id.isEmpty()) {
                 ConfigUtil.sendMessage(player, "language.correctUseInfo");
                 return;
             }
@@ -187,7 +187,7 @@ public class RegionCommand extends BaseCommand {
     }
 
     @Subcommand("sethome")
-    public void onSetHome(Player player, String[] args) {
+    public void onSetHome(Player player, String[] ignoredArgs) {
         if (!plugin.getModuleManager().check("home")) {
             return;
         }
@@ -196,7 +196,7 @@ public class RegionCommand extends BaseCommand {
         Settings settings = home.getSettings();
 
         String id = plugin.getProtection().getRegionID(player.getLocation());
-        if (id.equals("")) {
+        if (id.isEmpty()) {
             player.sendMessage(settings.get("SetHome.NotInRegion"));
             return;
         }

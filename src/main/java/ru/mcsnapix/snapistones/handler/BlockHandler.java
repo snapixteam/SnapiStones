@@ -1,5 +1,6 @@
 package ru.mcsnapix.snapistones.handler;
 
+import com.destroystokyo.paper.ParticleBuilder;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
@@ -8,7 +9,10 @@ import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -36,6 +40,14 @@ public class BlockHandler implements Listener {
         XMaterial xMaterial = XMaterial.matchXMaterial(block.getType());
 
         if (!SnapiStonesAPI.isProtectedBlock(xMaterial)) {
+            return;
+        }
+
+        if (!ConfigUtil.getString("mainWorld").equalsIgnoreCase(block.getWorld().getName())) {
+            return;
+        }
+
+        if (player.isSneaking()) {
             return;
         }
 
@@ -80,7 +92,14 @@ public class BlockHandler implements Listener {
         Bukkit.getPluginManager().callEvent(regionCreateEvent);
 
         ConfigUtil.sendMessage(p, "language.protected");
+        ConfigurationSection section = SnapiStones.get().getConfig().getConfigurationSection("Region."+protectionBlock.getItem().name());
+        l.getNearbyPlayers(6).forEach(player -> player.playSound(l, Sound.valueOf(section.getString("place-sound")), 1.0F, 1.0F));
+        new ParticleBuilder(Particle.valueOf(section.getString("place-effect.name")))
+                .location(l)
+                .count(section.getInt("place-effect.count"))
+                .spawn();
 
         return true;
     }
 }
+

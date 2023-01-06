@@ -1,0 +1,12 @@
+Title: 'Главное меню'
+Size: 45
+
+Items:
+  Information:
+    Material: "BEDROCK"
+    Amount: 1
+    Slot: 2
+    name: 'Информация'
+    lore:
+      - 'Описание'
+      - 'Описание'
