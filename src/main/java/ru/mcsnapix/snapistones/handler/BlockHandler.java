@@ -69,7 +69,7 @@ public class BlockHandler implements Listener {
         double by = l.getY();
         double bz = l.getZ();
 
-        RegionManager rm = WGUtil.getRegionManagerWithPlayer(p);
+        RegionManager rm = WGUtil.getRegionManager();
 
         String id = WGUtil.getNewRegionID(p, protectionBlock.getSymbol());
 

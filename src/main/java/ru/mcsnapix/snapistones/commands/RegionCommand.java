@@ -9,10 +9,14 @@ import org.bukkit.entity.Player;
 import ru.mcsnapix.snapistones.SnapiStones;
 import ru.mcsnapix.snapistones.config.Settings;
 import ru.mcsnapix.snapistones.modules.home.Home;
+import ru.mcsnapix.snapistones.modules.menu.Menu;
+import ru.mcsnapix.snapistones.modules.menu.menus.MainMenu;
 import ru.mcsnapix.snapistones.utils.ConfigUtil;
 import ru.mcsnapix.snapistones.utils.Utils;
 import ru.mcsnapix.snapistones.utils.placeholder.PlayerUtil;
 import ru.mcsnapix.snapistones.utils.WGUtil;
+
+import java.util.Map;
 
 @CommandAlias("rg|region")
 public class RegionCommand extends BaseCommand {
@@ -23,7 +27,7 @@ public class RegionCommand extends BaseCommand {
     public void onInfo(Player player, String[] args) {
         if (args.length == 0) {
             String id = plugin.getProtection().getRegionID(player.getLocation());
-            if (id.isEmpty()) {
+            if (id.isEmpty() || id.equalsIgnoreCase("lobby")) {
                 ConfigUtil.sendMessage(player, "language.correctUseInfo");
                 return;
             }
@@ -221,6 +225,26 @@ public class RegionCommand extends BaseCommand {
         Home home = plugin.getModuleManager().getHome();
         Settings settings = home.getSettings();
 
+        int count = 0;
+        String regionId = "";
+
+        for (Map.Entry<String, ProtectedRegion> entry : plugin.getRegionManager().getRegions().entrySet()) {
+            ProtectedRegion region = entry.getValue();
+
+            if (WGUtil.hasPlayerInRegion(region, player)) {
+                if (home.getHomeLoc(region.getId()) != null) {
+                    count++;
+                    regionId = region.getId();
+                }
+            }
+        }
+
+        if (count == 1) {
+            player.teleport(home.getHomeLoc(regionId));
+            player.sendMessage(settings.get("Home.Success"));
+            return;
+        }
+
         if (args.length == 0) {
             player.sendMessage(settings.get("Home.RegionWrite"));
             return;
@@ -246,6 +270,49 @@ public class RegionCommand extends BaseCommand {
     @HelpCommand
     public void onHelp(CommandSender sender) {
         sender.sendMessage(plugin.getConfig().getStringList("language.help").toArray(new String[0]));
+    }
+
+    @Subcommand("menu")
+    @CommandCompletion("@myregionlistbymember")
+    public void onMenu(Player player, String[] args) {
+        if (!plugin.getModuleManager().check("menu")) {
+            return;
+        }
+
+        Menu menu = plugin.getModuleManager().getMenu();
+        Settings settings = menu.getMainSettings();
+
+
+        if (args.length == 0) {
+            String id = plugin.getProtection().getRegionID(player.getLocation());
+            if (id.isEmpty()) {
+                player.sendMessage(settings.get("Command.CorrectUse"));
+                return;
+            }
+            ProtectedRegion region = plugin.getProtection().getRegion(player.getLocation());
+
+            if (!WGUtil.hasPlayerInRegion(region, player)) {
+                player.sendMessage(settings.get("Command.NoMember"));
+                return;
+            }
+
+            new MainMenu(settings, player, region).open(player);
+            return;
+        }
+        String id = args[0];
+
+        if (!WGUtil.hasRegion(player, id)) {
+            player.sendMessage(replaceRGID("Command.noRegionWithName", id));
+            return;
+        }
+
+        ProtectedRegion region = WGUtil.getRegion(player, id);
+        if (!WGUtil.hasPlayerInRegion(region, player)) {
+            player.sendMessage(settings.get("Command.NoMember"));
+            return;
+        }
+
+        new MainMenu(settings, player, region).open(player);
     }
 
     private String replaceRGID(String path, String id) {

@@ -9,9 +9,11 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import ru.mcsnapix.snapistones.SnapiStones;
 
 @UtilityClass
 public class WGUtil {
+    private final RegionManager regionManager = SnapiStones.get().getRegionManager();
 
     public BlockVector3 getMinVector(double bx, double by, double bz, long xRadius, long yRadius, long zRadius) {
         return BlockVector3.at(bx - xRadius, by - yRadius, bz - zRadius);
@@ -43,19 +45,11 @@ public class WGUtil {
     }
 
     public boolean hasRegion(Player p, String id) {
-        return getRegionManagerWithPlayer(p).hasRegion(id);
+        return getRegionManager().hasRegion(id);
     }
 
     public ProtectedRegion getRegion(Player p, String id) {
-        return getRegionManagerWithPlayer(p).getRegion(id);
-    }
-
-    public RegionManager getRegionManagerWithPlayer(Player p) {
-        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(p.getWorld()));
-    }
-
-    public RegionManager getRegionManagerWithLocation(Location loc) {
-        return WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(loc.getWorld()));
+        return getRegionManager().getRegion(id);
     }
 
     public RegionManager getRegionManagerWithWorld(String world) {
@@ -64,5 +58,9 @@ public class WGUtil {
 
     public boolean hasPlayerInRegion(ProtectedRegion region, Player player) {
         return region.getOwners().contains(player.getUniqueId()) || region.getMembers().contains(player.getUniqueId());
+    }
+
+    public static RegionManager getRegionManager() {
+        return regionManager;
     }
 }

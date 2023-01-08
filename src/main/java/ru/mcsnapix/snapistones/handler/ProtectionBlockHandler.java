@@ -75,7 +75,7 @@ public class ProtectionBlockHandler implements Listener {
         XMaterial item = XMaterial.matchXMaterial(block.getType());
         Player player = event.getPlayer();
 
-        RegionManager regionManager = WGUtil.getRegionManagerWithLocation(location);
+        RegionManager regionManager = WGUtil.getRegionManager();
         ProtectionBlock protectionBlock = plugin.getProtection().getProtectionBlock(item);
         ProtectedRegion region = plugin.getProtection().getRegion(location);
 

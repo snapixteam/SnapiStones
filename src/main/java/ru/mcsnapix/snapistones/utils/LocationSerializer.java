@@ -14,6 +14,9 @@ public class LocationSerializer {
 
     public Location getDeserializedLocation(String s) {
         String [] parts = s.split(";");
+        if (parts.length == 0) {
+            return null;
+        }
         double x = Double.parseDouble(parts[0]);
         double y = Double.parseDouble(parts[1]);
         double z = Double.parseDouble(parts[2]);

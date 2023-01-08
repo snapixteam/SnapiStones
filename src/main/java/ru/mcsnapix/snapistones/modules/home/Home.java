@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import ru.mcsnapix.snapistones.SnapiStones;
 import ru.mcsnapix.snapistones.config.Settings;
 import ru.mcsnapix.snapistones.interfaces.IModule;
+import ru.mcsnapix.snapistones.modules.home.listener.HomeListener;
 import ru.mcsnapix.snapistones.mysql.MySQL;
 import ru.mcsnapix.snapistones.utils.LocationSerializer;
 
@@ -20,6 +21,7 @@ public class Home implements IModule {
     @Override
     public void loadModule(SnapiStones main) {
         settings = new Settings("modules/home", false);
+        main.getServer().getPluginManager().registerEvents(new HomeListener(this), main);
         Bukkit.getLogger().info("§fМодуль §aHome §fзагружен");
     }
 
@@ -40,6 +42,14 @@ public class Home implements IModule {
         try {
             mySQL.execute("DELETE FROM snapistones_homes WHERE `region` = ?", region);
             mySQL.execute("INSERT INTO snapistones_homes VALUES (?, ?)", region, LocationSerializer.getSerializedLocation(location));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeHome(String region) {
+        try {
+            mySQL.execute("DELETE FROM snapistones_homes WHERE `region` = ?", region);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

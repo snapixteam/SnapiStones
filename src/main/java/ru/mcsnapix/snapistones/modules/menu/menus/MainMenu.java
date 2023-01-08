@@ -2,6 +2,7 @@ package ru.mcsnapix.snapistones.modules.menu.menus;
 
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import de.erethon.headlib.HeadLib;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -36,10 +37,8 @@ public class MainMenu extends FastInv {
 //                ItemStack skull = HeadLib.ANIMAL_BIRD.toItemStack();
 
                 ItemStack skull = HeadLib.setSkullOwner(
-                        new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial())
-                        .name(itemName).lore(itemLore).amount(itemAmount)
-                        .build(), UUID.randomUUID(), itemHead);
-                setItem(itemSlot, skull);
+                        new ItemStack(Material.PLAYER_HEAD), UUID.randomUUID(), itemHead);
+                setItem(itemSlot, new ItemBuilder(skull).amount(itemAmount).name(itemName).lore(itemLore).build());
                 continue;
             }
 

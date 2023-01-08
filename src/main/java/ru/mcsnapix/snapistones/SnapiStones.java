@@ -2,6 +2,7 @@ package ru.mcsnapix.snapistones;
 
 import co.aikar.commands.PaperCommandManager;
 import com.google.common.collect.ImmutableList;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
@@ -9,6 +10,7 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.mcsnapix.snapistones.commands.RegionCommand;
@@ -35,7 +37,7 @@ public final class SnapiStones extends JavaPlugin {
     private MySQL mySQL;
     @Setter
     private RegionManager regionManager;
-    private PaperCommandManager commandManager;
+    @Setter private PaperCommandManager commandManager;
 
     public static SnapiStones get() {
         return snapiStones;
@@ -69,11 +71,13 @@ public final class SnapiStones extends JavaPlugin {
 
         commandManager = new PaperCommandManager(snapiStones);
         commandManager.registerCommand(new RegionCommand());
+        registerCommandCompletions(commandManager);
     }
 
     @Override
     public void onLoad() {
         if (isPluginEnable("CMI")) {
+            setRegionManager(WorldGuard.getInstance().getPlatform().getRegionContainer().get(BukkitAdapter.adapt(Bukkit.getWorld("world"))));
             return;
         }
 

@@ -53,7 +53,7 @@ public class Protection {
         ApplicableRegionSet set = WorldGuard.getInstance()
                 .getPlatform().getRegionContainer().createQuery()
                 .getApplicableRegions(BukkitAdapter.adapt(loc));
-        ProtectedRegion rg = WGUtil.getRegionManagerWithLocation(loc).getRegion(ProtectedRegion.GLOBAL_REGION);
+        ProtectedRegion rg = WGUtil.getRegionManager().getRegion(ProtectedRegion.GLOBAL_REGION);
 
         for (ProtectedRegion region : set) {
             rg = region;
