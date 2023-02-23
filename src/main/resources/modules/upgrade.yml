@@ -1,0 +1,53 @@
+Effects:
+  Speed:
+    Effect: "SPEED"
+    Level: 1
+    Name: "Скорость"
+    Cost: 100
+  Jump:
+    Effect: "JUMP"
+    Level: 1
+    Name: "Прыгучесть"
+    Cost: 100
+  Strength:
+    Effect: "INCREASE_DAMAGE"
+    Level: 1
+    Name: "Сила"
+    Cost: 100
+  Haste:
+    Effect: "FAST_DIGGING"
+    Level: 1
+    Name: "Спешка"
+    Cost: 100
+  Regeneration:
+    Effect: "REGENERATION"
+    Level: 1
+    Name: "Регенерация"
+    Cost: 100
+Max-Limit:
+  Owners:
+    1:
+      Amount: 2
+    2:
+      Amount: 3
+    3:
+      Amount: 4
+    4:
+      Amount: 5
+    5:
+      Amount: 6
+  Members:
+    1:
+      Amount: 5
+    2:
+      Amount: 7
+    3:
+      Amount: 9
+    4:
+      Amount: 11
+    5:
+      Amount: 14
+Language:
+  Limit:
+    AddOwner: 'Вы превышаете лимит по овнорам (%region_max_owners%)'
+    AddMember: 'Вы превышаете лимит по участник (%region_max_members%)'

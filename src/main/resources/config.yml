@@ -96,6 +96,13 @@ language:
     - '§fВладельцы: §a%region_owners%'
     - '§fУчастники: §a%region_members%'
     - ''
+  listPlayers:
+    name: 'fhhfshsfhsh'
+    lore:
+      - 'skkjgsf'
+      - 'skgkgskg'
+      - 'sgklskgk'
+      - 'sgkgk'
   noRegionWithName: '§cНет §fрегиона с именем §a%region_id%'
   correctUse:
     remove:

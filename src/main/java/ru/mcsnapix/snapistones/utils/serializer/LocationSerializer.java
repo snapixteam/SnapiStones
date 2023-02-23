@@ -1,15 +1,22 @@
-package ru.mcsnapix.snapistones.utils;
+package ru.mcsnapix.snapistones.utils.serializer;
 
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-
 @UtilityClass
 public class LocationSerializer {
     public String getSerializedLocation(Location loc) {
         return loc.getX() + ";" + loc.getY() + ";" + loc.getZ() + ";" + loc.getWorld().getName() + ";" + loc.getYaw() + ";" + loc.getPitch();
+    }
+
+    public String getFormattedLocation(Location loc) {
+        return "x="+toInt(loc.getBlockX())+", y="+toInt(loc.getBlockY())+", z="+toInt(loc.getBlockZ());
+    }
+
+    private int toInt(int x) {
+        return Integer.parseInt(String.valueOf(x));
     }
 
     public Location getDeserializedLocation(String s) {

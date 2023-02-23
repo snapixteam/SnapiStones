@@ -1,6 +1,7 @@
 name: SnapiStones
 version: '${project.version}'
 main: ru.mcsnapix.snapistones.SnapiStones
+api-version: 1.13
 authors: [ SnapiX ]
 depend:
   - WorldGuard

@@ -41,24 +41,17 @@ public class MySQL {
         }
     }
 
-    private PreparedStatement prepareStatement(String query, Object... vars) throws SQLException {
+    public PreparedStatement prepareStatement(String query, Object... vars) throws SQLException {
         if (!isConnected()) openConnection();
-        PreparedStatement ps = null;
-        try {
-            int i = 0;
-            ps = con.prepareStatement(query);
-            if (query.contains("?")) {
-                for (Object obj : vars) {
-                    i++;
-                    ps.setObject(i, obj);
-                }
-            }
-            return ps;
-        } finally {
-            if (ps != null) {
-                ps.close();
+        PreparedStatement ps = con.prepareStatement(query);
+        int i = 0;
+        if (query.contains("?")) {
+            for (Object obj : vars) {
+                i++;
+                ps.setObject(i, obj);
             }
         }
+        return ps;
     }
 
     public CachedRowSet getCRS(String query, Object... vars) throws SQLException {

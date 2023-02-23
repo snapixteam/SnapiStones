@@ -9,13 +9,18 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.mcsnapix.snapistones.commands.RegionCommand;
 import ru.mcsnapix.snapistones.handler.BlockHandler;
 import ru.mcsnapix.snapistones.handler.ProtectionBlockHandler;
+import ru.mcsnapix.snapistones.listeners.RegionListener;
 import ru.mcsnapix.snapistones.listeners.ServerListener;
 import ru.mcsnapix.snapistones.managers.Module;
 import ru.mcsnapix.snapistones.managers.Protection;
@@ -35,12 +40,21 @@ public final class SnapiStones extends JavaPlugin {
     private Module moduleManager;
     private Protection protection;
     private MySQL mySQL;
+    private BukkitAudiences adventure;
+    private Chat chat;
     @Setter
     private RegionManager regionManager;
     @Setter private PaperCommandManager commandManager;
 
     public static SnapiStones get() {
         return snapiStones;
+    }
+
+    public @NonNull BukkitAudiences adventure() {
+        if (this.adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.adventure;
     }
 
     @Override
@@ -68,10 +82,14 @@ public final class SnapiStones extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockHandler(snapiStones), snapiStones);
         getServer().getPluginManager().registerEvents(new ProtectionBlockHandler(snapiStones), snapiStones);
         getServer().getPluginManager().registerEvents(new ServerListener(snapiStones), snapiStones);
+        getServer().getPluginManager().registerEvents(new RegionListener(), snapiStones);
 
         commandManager = new PaperCommandManager(snapiStones);
         commandManager.registerCommand(new RegionCommand());
         registerCommandCompletions(commandManager);
+
+        this.adventure = BukkitAudiences.create(this);
+        setupChat();
     }
 
     @Override
@@ -84,6 +102,19 @@ public final class SnapiStones extends JavaPlugin {
         FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
         registry.register(FlagUtil.GREET_ACTION);
         registry.register(FlagUtil.FAREWELL_ACTION);
+    }
+
+    @Override
+    public void onDisable() {
+        try {
+            mySQL.closeConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (this.adventure != null) {
+            this.adventure.close();
+            this.adventure = null;
+        }
     }
 
     public void registerCommandCompletions(PaperCommandManager manager) {
@@ -130,18 +161,31 @@ public final class SnapiStones extends JavaPlugin {
 
             return ImmutableList.copyOf(regionList);
         });
-    }
 
-    @Override
-    public void onDisable() {
-        try {
-            mySQL.closeConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        manager.getCommandCompletions().registerAsyncCompletion("myregionhomelistbymember", c -> {
+            Player player = c.getPlayer();
+            List<String> regionList = new ArrayList<>();
+
+            for (Map.Entry<String, ProtectedRegion> entry : regionManager.getRegions().entrySet()) {
+                ProtectedRegion region = entry.getValue();
+
+                if (WGUtil.hasPlayerInRegion(region, player)) {
+                    if (getModuleManager().getHome().hasLocationHome(region.getId())) {
+                        regionList.add(region.getId());
+                    }
+                }
+            }
+
+            return ImmutableList.copyOf(regionList);
+        });
     }
 
     public boolean isPluginEnable(String plugin) {
         return getServer().getPluginManager().isPluginEnabled(plugin);
+    }
+
+    private void setupChat() {
+        RegisteredServiceProvider<Chat> rsp = getServer().getServicesManager().getRegistration(Chat.class);
+        chat = rsp.getProvider();
     }
 }

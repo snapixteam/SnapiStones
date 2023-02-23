@@ -10,9 +10,9 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import ru.mcsnapix.snapistones.SnapiStones;
@@ -23,6 +23,8 @@ import ru.mcsnapix.snapistones.enums.ClickAction;
 import ru.mcsnapix.snapistones.utils.ConfigUtil;
 import ru.mcsnapix.snapistones.utils.WGUtil;
 import ru.mcsnapix.snapistones.xseries.XMaterial;
+
+import java.util.List;
 
 public class ProtectionBlockHandler implements Listener {
     private final SnapiStones plugin;
@@ -115,6 +117,24 @@ public class ProtectionBlockHandler implements Listener {
                 return ClickAction.LEFT;
             } else {
                 return ClickAction.RIGHT;
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPistonExtend(BlockPistonExtendEvent e) {
+        pistonUtil(e.getBlocks(), e);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onPistonRetract(BlockPistonRetractEvent e) {
+        pistonUtil(e.getBlocks(), e);
+    }
+
+    private void pistonUtil(List<Block> pushedBlocks, BlockPistonEvent e) {
+        for (Block b : pushedBlocks) {
+            if (plugin.getProtection().isRegionProtectionBlock(b.getLocation())) {
+                e.setCancelled(true);
             }
         }
     }

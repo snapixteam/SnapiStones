@@ -1,7 +1,9 @@
 package ru.mcsnapix.snapistones.modules.holograms.listener;
 
 import eu.decentsoftware.holograms.api.DHAPI;
+import eu.decentsoftware.holograms.api.holograms.Hologram;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import ru.mcsnapix.snapistones.api.events.region.RegionCreateEvent;
 import ru.mcsnapix.snapistones.api.events.region.RegionRemoveEvent;
@@ -16,14 +18,15 @@ public class HologramListener implements Listener {
         this.settings = settings;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onRegionCreate(RegionCreateEvent event) {
         String id = event.getRegion().getId();
         String nameMaterial = Utils.getItemStackName(event.getProtectionBlock().getItem());
-        DHAPI.createHologram(id, event.getLocation().add(0.5, settings.getDouble(nameMaterial + ".height"), 0.5), PlaceholderUtil.getStringList(settings.getList(nameMaterial + ".lines"), event.getPlayer(), event.getRegion()));
+        Hologram hologram = DHAPI.createHologram(id, event.getLocation().add(0.5, settings.getDouble(nameMaterial + ".height"), 0.5), PlaceholderUtil.getStringList(settings.getList(nameMaterial + ".lines"), event.getPlayer(), event.getRegion(), event.getProtectionBlock()));
+        hologram.save();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onRegionRemove(RegionRemoveEvent event) {
         String id = event.getRegion().getId();
         DHAPI.removeHologram(id);

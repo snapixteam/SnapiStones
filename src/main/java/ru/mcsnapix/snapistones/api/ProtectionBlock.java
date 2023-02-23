@@ -13,4 +13,9 @@ public class ProtectionBlock {
     private final int radiusX;
     private final int radiusY;
     private final int radiusZ;
+
+    public String getFormattedRadius() {
+        String radius = Integer.toString(radiusX*2+1);
+        return String.format("%sx%sx%s", radius, radius, radius);
+    }
 }

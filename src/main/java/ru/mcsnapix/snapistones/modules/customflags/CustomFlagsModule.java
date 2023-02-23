@@ -9,7 +9,7 @@ import ru.mcsnapix.snapistones.modules.customflags.listener.FlagListener;
 import ru.mcsnapix.snapistones.modules.customflags.utils.FlagUtil;
 
 @Getter
-public class CustomFlags implements IModule {
+public class CustomFlagsModule implements IModule {
     private Settings settings;
 
     @Override

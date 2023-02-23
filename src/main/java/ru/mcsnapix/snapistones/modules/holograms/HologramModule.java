@@ -8,7 +8,7 @@ import ru.mcsnapix.snapistones.interfaces.IModule;
 import ru.mcsnapix.snapistones.modules.holograms.listener.HologramListener;
 
 @Getter
-public class Hologram implements IModule {
+public class HologramModule implements IModule {
     private Settings settings;
 
     @Override

@@ -84,6 +84,10 @@ public class Utils {
             Utils.logError(e);
         }
 
-        return Bukkit.getServer().getOfflinePlayer(uuid).hasPlayedBefore();
+        if (uuid != null) {
+            return Bukkit.getServer().getOfflinePlayer(uuid).hasPlayedBefore();
+        }
+
+        return false;
     }
 }

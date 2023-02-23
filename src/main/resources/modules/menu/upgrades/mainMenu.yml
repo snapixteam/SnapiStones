@@ -1,0 +1,113 @@
+Title: 'Главное меню'
+Size: 36
+
+Items:
+  Owner:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 11
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODdmZjQxMWE5MDQ2N2IzZGJlMmIxMmIyNzA2ODZiMmM4NjU3Zjk4Mzg4MzFjMjZhMjRiZDM2NjQwNTY1NWQ5YyJ9fX0='
+    Name: '§aВладельцы региона'
+    Lore:
+      - '§fИгроки §7(now_owners/max_owners)§f:'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §eПусто'
+  Members:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 12
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWMwNzM0MTIyYThmYzgwYjNlMjE1Y2U1ODI2MTBhNDA1ZjBiYThjMmQ4MmQwNTJiNTc0MTNmMDkzYWU2YTRhZCJ9fX0='
+    Name: '§aУчастники региона'
+    Lore:
+      - '§fИгроки §7(now_members/max_members)§f:'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §aplayer'
+      - '§f– §eПусто'
+      - '§f– §eПусто'
+  AddOwner:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 14
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmQ4NmRiOWExNGQ1ODc5ZmEyODExZDMwMWNjYmQ1MjY5OTRmODcxMjQ3YjYyZjJkOWE0ODE4M2U5NjQxYWQ2OSJ9fX0='
+    Name: '§aДобавить владельца'
+    Lore:
+      - '§fВладельцы региона смогут'
+      - '§fдобавлять и удалять участников,'
+      - '§fа также сломать блок привата'
+      - ''
+      - '§aНажмите, чтобы добавить'
+  AddMember:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 15
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMyZmZmMTYzZTIzNTYzMmY0MDQ3ZjQ4NDE1OTJkNDZmODVjYmJmZGU4OWZjM2RmNjg3NzFiZmY2OWE2NjIifX19'
+    Name: '§aДобавить участника'
+    Lore:
+      - '§fУчастники региона смогут ставить и'
+      - '§fломать любые блоки, кроме блока'
+      - '§fпривата в вашем регионе'
+      - ''
+      - '§aНажмите, чтобы добавить'
+  Info:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 20
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc5ODBiOTQwYWY4NThmOTEwOTQzNDY0ZWUwMDM1OTI4N2NiMGI1ODEwNjgwYjYwYjg5YmU0MjEwZGRhMGVkMSJ9fX0='
+    Name: '§aИнформация о регионе'
+    Lore:
+      - '§fКраткая информация:'
+      - '§fРазмер: §a%region_size%'
+      - '§fВладельцев: §a%region_owners_size% игроков'
+      - '§fУчастников: §a%region_members_size% игроков'
+      - '§fДата создания: §a%region_creation_date%'
+      - '§fКоординаты блока: §a%region_center%'
+      - '§fТочка дома: %region_has_home%'
+  Upgrade:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 21
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTk5YWFmMjQ1NmE2MTIyZGU4ZjZiNjI2ODNmMmJjMmVlZDlhYmI4MWZkNWJlYTFiNGMyM2E1ODE1NmI2NjkifX19'
+    Name: '§aУлучшение региона'
+    Lore:
+      - '§fУ вас имеется возможность улучшить'
+      - '§fсвой регион. Например, включить'
+      - '§fэффекты в регионе, увеличить'
+      - '§fмаксимальный лимит игроков и т.д.'
+      - ''
+      - '§aНажмите, чтобы открыть меню'
+  Border:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 23
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWRmYWQxYzFmODE3NTI0MDAzMjkyYzQxMzFmOGRlODUwMDE5NzQ5MjYzNTQ3OGE4ZjE3NjcxODM0YjNiYzAwOCJ9fX0='
+    Name: '§aПоказать границы региона'
+    Lore:
+      - '§fВы можете включить показ границ'
+      - '§fрегиона, чтобы увидеть его размер'
+      - '§fи лучше понимать свои возможности!'
+      - ''
+      - '§fПоказ границ: §aвключено§7/§cвыключено'
+      - ''
+      - '§aНажмите, чтобы переключить'
+  Size:
+    Material: "PLAYER_HEAD"
+    Amount: 1
+    Slot: 24
+    Head: 'eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmM1MWE0OWNmMTViOGNlYTQ2NWVlNmYzMWUwYzdmNzA2NGU5YjhiODRkZTJjZjAxZDJjNzRiODk3YTAyZGRlNyJ9fX0='
+    Name: '§aВидимость голограммы'
+    Lore:
+      - '§fЕсли вам мешает голограмма,'
+      - '§fто вы можете её выключить для'
+      - '§fвладельцев и участников региона'
+      - ''
+      - '§fПоказ голограммы: §aвключено§7/§cвыключено'
+      - ''
+      - '§aНажмите, чтобы переключить'
